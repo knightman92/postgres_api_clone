@@ -1,0 +1,9 @@
+-Need to add notification records to implement notification_tracker
+
+-Add notications for question:
+	-1. Do you have a vision statement for today?
+	-4. Did you write a gratitude list for today?
+	-10. Are you aware of your mood when you awake for the day?
+	-12. Does your mood change when around certain person(s)?
+	-13. Does your mood change when you go to certain environments—school, competition sites, training sites, store? 
+	-14. Does your vision statement for today give you goosebumps?
