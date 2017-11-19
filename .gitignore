@@ -8,7 +8,8 @@
 /.bundle
 
 # Ignore secret vars
-/config/initializers/my_secret_vars.rb
+secrets.sh
+# /config/initializers/my_secret_vars.rb
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
