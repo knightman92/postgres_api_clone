@@ -7,10 +7,6 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore secret vars
-secrets.sh
-# /config/initializers/my_secret_vars.rb
-
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal

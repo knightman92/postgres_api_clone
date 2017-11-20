@@ -3,20 +3,18 @@ class PlayersNotificationsController < ApplicationController
 
   # GET /notifications
   def index
-  	# if params[:counter] != nil and params[:player_id] != nil
-  	# 	@players_notifications = PlayersNotification.find_by(counter: params[:counter], player_id: params[:player_id])
-  	# 	puts @players_notifications
-  	# 	@notifications = @players_notifications.each do |player_notification|
-			# 	# puts @player_notification[:notification_id]
-			# 	Notification.find_by(id: params[:notification_id])
-			# end
-			# json_response(@notifications)
+		@notifications = []
+		# if user_id is specified then we return all notifications that had a counter=3
 		if params[:user_id] != nil
 			@players_notifications = PlayersNotification.where("user_id = ? AND counter = 3", params[:user_id])
+  		@players_notifications.each do |notification|
+  			@notification = Notification.find(notification.notification_id)
+  			@notifications.push(@notification)
+  		end
   	else
-      @players_notifications = PlayersNotification.all
+      @notifications = PlayersNotification.all
     end
-    json_response(@players_notifications)
+    json_response(@notifications)
   end
 
   # POST /notifications
