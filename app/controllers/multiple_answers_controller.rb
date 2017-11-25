@@ -1,7 +1,6 @@
 class MultipleAnswersController < ApplicationController
   include NotificationTracker
 
-
   def create_multiple
 		# puts "This is "
 		# puts params
@@ -22,6 +21,11 @@ class MultipleAnswersController < ApplicationController
         puts "The answer was worth this many points below:"
         puts answer[:points]
         total_points += answer[:points].to_i
+        if answer[:points] == 1
+          incrementNotification(answer[:question_id], answer[:user_id])
+        else
+          resetCounter(answer[:question_id], answer[:user_id])
+        end
       end
 
       # and then respond with the json versions of the saved ticker_activites

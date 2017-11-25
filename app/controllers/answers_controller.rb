@@ -29,12 +29,12 @@ class AnswersController < ApplicationController
     puts params 
     @answer = Answer.create!(answer_params)
     addPointsToPlayer(params[:user_id], params[:points]);
-    # if @answer[:points] == 1
-    #   incrementNotification(params[:question_id], params[:user_id])
-    # else
-    #   puts params
-    #   resetCounter(params[:question_id], params[:user_id])
-    # end
+    if @answer[:points] == 1
+      incrementNotification(params[:question_id], params[:user_id])
+    else
+      puts params
+      resetCounter(params[:question_id], params[:user_id])
+    end
     json_response(@answer, :created)
   end
 
