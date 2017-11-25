@@ -29,9 +29,10 @@ class AnswersController < ApplicationController
     puts params 
     @answer = Answer.create!(answer_params)
     addPointsToPlayer(params[:user_id], params[:points]);
-    if @answer[:points] == 1
+    question_pattern = Question.find(params[:question_id])[:pattern_multi]
+    if @answer[:points] == 1 && question_pattern == 1
       incrementNotification(params[:question_id], params[:user_id])
-    else
+    elsif @answer[:points] != 1 && question_pattern == 1
       puts params
       resetCounter(params[:question_id], params[:user_id])
     end

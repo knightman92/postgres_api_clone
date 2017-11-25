@@ -21,9 +21,10 @@ class MultipleAnswersController < ApplicationController
         puts "The answer was worth this many points below:"
         puts answer[:points]
         total_points += answer[:points].to_i
-        if answer[:points] == 1
+        question_pattern = Question.find(answer[:question_id])[:pattern_multi]
+        if answer[:points] == 1 && question_pattern == 1
           incrementNotification(answer[:question_id], answer[:user_id])
-        else
+        elsif answer[:points] != 1 && question_pattern == 1
           resetCounter(answer[:question_id], answer[:user_id])
         end
       end
