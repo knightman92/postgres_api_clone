@@ -43,15 +43,16 @@ module NotificationTracker
     		# json_response(@answer, :created)
       elsif @new_counter == 3
     		puts "send notification"
-    # 		client = Twilio::REST::Client.new(ENV['account_sid'], ENV['auth_token'])
-				# service = client.notify.v1.services(ENV['notify_service_sid'])
-				# identity = user_id.to_s
 
-				# notification = service.notifications.create(
-				#   identity: identity,
-				#   body: @notification[:message]
-				# )
+    		client = Twilio::REST::Client.new(ENV['account_sid'], ENV['auth_token'])
+				service = client.notify.v1.services(ENV['notify_service_sid'])
+				identity = user_id.to_s
 
+				notification = service.notifications.create(
+				  identity: 'test2',
+				  body: @notification[:message]
+				)
+				puts notification
 				# puts notification.sid
 				# json_response(notification: notification)
 	      PlayersNotification.where('notification_id = ? AND user_id = ?', @notification[:id], @player_notification[:user_id]).update_all(counter: @new_counter, received: true)

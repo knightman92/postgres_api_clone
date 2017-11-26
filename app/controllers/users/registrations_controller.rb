@@ -10,6 +10,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
+    client = Twilio::REST::Client.new(ENV['account_sid'], ENV['auth_token'])
+    service = client.notify.v1.services(ENV['notify_service_sid'])
+
     @user = User.create!(user_params)
     if params[:coach_id] != nil
       puts "Created a player"
@@ -23,6 +26,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @user.is_coach = 1
       @user.save
     end
+
+    # parameters from device
+    identity = params[:id]
+    puts params[:id]
+    fcm_token = params[:fcm_token]
+
+    bind = service.bindings.create(
+      identity: identity,
+      binding_type: 'fcm',
+      address: fcm_token,
+    )
+    puts bind
     json_response(@user, :created)
   end
 
@@ -74,6 +89,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     # whitelist params
-    params.permit( :first_name, :last_name, :email, :password, :password_confirmation, :phone, :gender, :points, :coach_id, :age, :age_range, :coach_name, :is_coach)
+    params.permit( :first_name, :last_name, :email, :password, :password_confirmation, :phone, :gender, :points, :coach_id, :age, :age_range, :coach_name, :is_coach, :device_id)
   end
 end
