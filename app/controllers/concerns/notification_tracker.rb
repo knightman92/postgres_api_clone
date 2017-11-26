@@ -49,7 +49,7 @@ module NotificationTracker
 				identity = user_id.to_s
 
 				notification = service.notifications.create(
-				  identity: 'test2',
+				  identity: identity,
 				  body: @notification[:message]
 				)
 				puts notification
