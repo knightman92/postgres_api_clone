@@ -2,24 +2,49 @@ class AnswersController < ApplicationController
 	before_action :set_answer, only: [:show, :update, :destroy]
   include NotificationTracker
 
+  # add params[:day]
+
   # GET /answers
   def index
-    if params[:user_id] != nil and params[:question_id] != nil and params[:points] != nil
-      @answers = Answer.where("user_id = ? AND question_id = ? AND points = ?", params[:user_id], params[:question_id], params[:points])
-    elsif params[:user_id] != nil and params[:question_id] != nil
-      @answers = Answer.where("user_id = ? AND question_id = ?", params[:user_id], params[:question_id])
-    elsif params[:points] != nil and params[:question_id] != nil
-      @answers = Answer.where("points = ? AND question_id = ?", params[:points], params[:question_id])
-    elsif params[:user_id] != nil and params[:points] != nil
-      @answers = Answer.where("user_id = ? AND points = ?", params[:user_id], params[:points])
-    elsif params[:points] != nil
-      @answers = Answer.where("points = ?", params[:points])
-    elsif params[:user_id] != nil
-      @answers = Answer.where("user_id = ?", params[:user_id])
-    elsif params[:question_id] != nil
-      @answers = Answer.where("question_id = ?", params[:question_id])
-    else
-      @answers = Answer.all
+    if params[:day] != nil
+      # used to get answers for a particular day
+      begday = params[:day].to_date.beginning_of_day
+      endday = params[:day].to_date.end_of_day
+      if params[:user_id] != nil and params[:question_id] != nil and params[:points] != nil
+        @answers = Answer.where("user_id = ? AND question_id = ? AND points = ? AND created_at >= ? AND created_at < ?", params[:user_id], params[:question_id], params[:points], begday, endday)
+      elsif params[:user_id] != nil and params[:question_id] != nil
+        @answers = Answer.where("user_id = ? AND question_id = ? AND created_at >= ? AND created_at < ?", params[:user_id], params[:question_id], begday, endday)
+      elsif params[:points] != nil and params[:question_id] != nil
+        @answers = Answer.where("points = ? AND question_id = ? AND created_at >= ? AND created_at < ?", params[:points], params[:question_id], begday, endday)
+      elsif params[:user_id] != nil and params[:points] != nil
+        @answers = Answer.where("user_id = ? AND points = ? AND created_at >= ? AND created_at < ?", params[:user_id], params[:points], begday, endday)
+      elsif params[:points] != nil
+        @answers = Answer.where("points = ? AND created_at >= ? AND created_at < ?", params[:points], begday, endday)
+      elsif params[:user_id] != nil
+        @answers = Answer.where("user_id = ? AND created_at >= ? AND created_at < ?", params[:user_id], begday, endday)
+      elsif params[:question_id] != nil
+        @answers = Answer.where("question_id = ? AND created_at >= ? AND created_at < ?", params[:question_id], begday, endday)
+      else
+        @answers = Answer.where("created_at >= ? AND created_at < ?", begday, endday)
+      end
+    else 
+      if params[:user_id] != nil and params[:question_id] != nil and params[:points] != nil
+        @answers = Answer.where("user_id = ? AND question_id = ? AND points = ?", params[:user_id], params[:question_id], params[:points])
+      elsif params[:user_id] != nil and params[:question_id] != nil
+        @answers = Answer.where("user_id = ? AND question_id = ?", params[:user_id], params[:question_id])
+      elsif params[:points] != nil and params[:question_id] != nil
+        @answers = Answer.where("points = ? AND question_id = ?", params[:points], params[:question_id])
+      elsif params[:user_id] != nil and params[:points] != nil
+        @answers = Answer.where("user_id = ? AND points = ?", params[:user_id], params[:points])
+      elsif params[:points] != nil
+        @answers = Answer.where("points = ?", params[:points])
+      elsif params[:user_id] != nil
+        @answers = Answer.where("user_id = ?", params[:user_id])
+      elsif params[:question_id] != nil
+        @answers = Answer.where("question_id = ?", params[:question_id])
+      else
+        @answers = Answer.all
+      end
     end
     json_response(@answers)
   end
@@ -60,7 +85,7 @@ class AnswersController < ApplicationController
 
   def answer_params
     # whitelist params
-    params.permit( :answer, :user_id, :question_id, :points )
+    params.permit( :answer, :user_id, :question_id, :points)
   end
 
   def set_answer
