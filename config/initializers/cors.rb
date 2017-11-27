@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'http://localhost:4200'
+    origins 'http://localhost:4200', 'http://test.offcourtapp.com', 'http://offcourtapp.com', 'https://d3kd393r0oekr.cloudfront.net'
 
     resource '*',
       headers: :any,
