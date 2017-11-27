@@ -50,7 +50,7 @@ module NotificationTracker
 
 				notification = service.notifications.create(
 				  identity: identity,
-				  body: @notification[:message]
+				  body: "New Resources"
 				)
 				puts notification
 				# puts notification.sid
