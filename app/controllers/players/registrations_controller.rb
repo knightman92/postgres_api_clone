@@ -10,12 +10,31 @@ class Players::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
+    client = Twilio::REST::Client.new(ENV['account_sid'], ENV['auth_token'])
+    service = client.notify.v1.services(ENV['notify_service_sid'])
+
     @player = User.create!(player_params)
     coach = User.find(@player.coach_id)
     @player.coach_name = coach.first_name+" "+coach.last_name
     @player.is_coach = 0
     @player.save
     createChannel(params[:email])
+
+    # parameters from device
+    identity = params[:id]
+    puts params[:id]
+    fcm_token = params[:fcm_token]
+    puts fcm_token
+
+    puts "Before binding" 
+    bind = service.bindings.create(
+      identity: identity,
+      binding_type: 'fcm',
+      address: fcm_token,
+    )
+    puts bind
+    puts "After binding"
+
     json_response(@player, :created)
   end
 
