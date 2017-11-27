@@ -21,8 +21,8 @@ class Players::RegistrationsController < Devise::RegistrationsController
     createChannel(params[:email])
 
     # parameters from device
-    identity = params[:id]
-    puts params[:id]
+    identity = @player[:id]
+    puts @player[:id]
     fcm_token = params[:fcm_token]
     puts fcm_token
 

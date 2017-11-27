@@ -28,8 +28,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
 
     # parameters from device
-    identity = params[:id]
-    puts params[:id]
+    identity = @user[:id]
+    puts @user[:id]
     fcm_token = params[:fcm_token]
     puts fcm_token
 
@@ -92,6 +92,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     # whitelist params
-    params.permit( :first_name, :last_name, :email, :password, :password_confirmation, :phone, :gender, :points, :coach_id, :age, :age_range, :coach_name, :is_coach, :fcm_token)
+    params.permit( :first_name, :last_name, :email, :password, :password_confirmation, :phone, :gender, :points, :coach_id, :age, :age_range, :coach_name, :is_coach)
   end
 end
