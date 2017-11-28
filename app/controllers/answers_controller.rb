@@ -25,7 +25,7 @@ class AnswersController < ApplicationController
       elsif params[:question_id] != nil
         @answers = Answer.where("question_id = ? AND created_at >= ? AND created_at < ?", params[:question_id], begday, endday)
       else
-        @answers = Answer.where("created_at >= ? AND created_at < ?", begday, endday)
+        @answers = Answer.where("created_at >= ? AND created_at < ?", begday, endday).order('question_order asc')
       end
     else 
       if params[:user_id] != nil and params[:question_id] != nil and params[:points] != nil
