@@ -11,39 +11,39 @@ class AnswersController < ApplicationController
       begday = params[:day].to_date.beginning_of_day
       endday = params[:day].to_date.end_of_day
       if params[:user_id] != nil and params[:question_id] != nil and params[:points] != nil
-        @answers = Answer.where("user_id = ? AND question_id = ? AND points = ? AND created_at >= ? AND created_at < ?", params[:user_id], params[:question_id], params[:points], begday, endday)
+        @answers = Answer.where("user_id = ? AND question_id = ? AND points = ? AND created_at >= ? AND created_at < ?", params[:user_id], params[:question_id], params[:points], begday, endday).order('question_order asc')
       elsif params[:user_id] != nil and params[:question_id] != nil
-        @answers = Answer.where("user_id = ? AND question_id = ? AND created_at >= ? AND created_at < ?", params[:user_id], params[:question_id], begday, endday)
+        @answers = Answer.where("user_id = ? AND question_id = ? AND created_at >= ? AND created_at < ?", params[:user_id], params[:question_id], begday, endday).order('question_order asc')
       elsif params[:points] != nil and params[:question_id] != nil
-        @answers = Answer.where("points = ? AND question_id = ? AND created_at >= ? AND created_at < ?", params[:points], params[:question_id], begday, endday)
+        @answers = Answer.where("points = ? AND question_id = ? AND created_at >= ? AND created_at < ?", params[:points], params[:question_id], begday, endday).order('question_order asc')
       elsif params[:user_id] != nil and params[:points] != nil
-        @answers = Answer.where("user_id = ? AND points = ? AND created_at >= ? AND created_at < ?", params[:user_id], params[:points], begday, endday)
+        @answers = Answer.where("user_id = ? AND points = ? AND created_at >= ? AND created_at < ?", params[:user_id], params[:points], begday, endday).order('question_order asc')
       elsif params[:points] != nil
-        @answers = Answer.where("points = ? AND created_at >= ? AND created_at < ?", params[:points], begday, endday)
+        @answers = Answer.where("points = ? AND created_at >= ? AND created_at < ?", params[:points], begday, endday).order('question_order asc')
       elsif params[:user_id] != nil
-        @answers = Answer.where("user_id = ? AND created_at >= ? AND created_at < ?", params[:user_id], begday, endday)
+        @answers = Answer.where("user_id = ? AND created_at >= ? AND created_at < ?", params[:user_id], begday, endday).order('question_order asc')
       elsif params[:question_id] != nil
-        @answers = Answer.where("question_id = ? AND created_at >= ? AND created_at < ?", params[:question_id], begday, endday)
+        @answers = Answer.where("question_id = ? AND created_at >= ? AND created_at < ?", params[:question_id], begday, endday).order('question_order asc')
       else
         @answers = Answer.where("created_at >= ? AND created_at < ?", begday, endday).order('question_order asc')
       end
     else 
       if params[:user_id] != nil and params[:question_id] != nil and params[:points] != nil
-        @answers = Answer.where("user_id = ? AND question_id = ? AND points = ?", params[:user_id], params[:question_id], params[:points])
+        @answers = Answer.where("user_id = ? AND question_id = ? AND points = ?", params[:user_id], params[:question_id], params[:points]).order('question_order asc')
       elsif params[:user_id] != nil and params[:question_id] != nil
-        @answers = Answer.where("user_id = ? AND question_id = ?", params[:user_id], params[:question_id])
+        @answers = Answer.where("user_id = ? AND question_id = ?", params[:user_id], params[:question_id]).order('question_order asc')
       elsif params[:points] != nil and params[:question_id] != nil
-        @answers = Answer.where("points = ? AND question_id = ?", params[:points], params[:question_id])
+        @answers = Answer.where("points = ? AND question_id = ?", params[:points], params[:question_id]).order('question_order asc')
       elsif params[:user_id] != nil and params[:points] != nil
-        @answers = Answer.where("user_id = ? AND points = ?", params[:user_id], params[:points])
+        @answers = Answer.where("user_id = ? AND points = ?", params[:user_id], params[:points]).order('question_order asc')
       elsif params[:points] != nil
-        @answers = Answer.where("points = ?", params[:points])
+        @answers = Answer.where("points = ?", params[:points]).order('question_order asc')
       elsif params[:user_id] != nil
-        @answers = Answer.where("user_id = ?", params[:user_id])
+        @answers = Answer.where("user_id = ?", params[:user_id]).order('question_order asc')
       elsif params[:question_id] != nil
-        @answers = Answer.where("question_id = ?", params[:question_id])
+        @answers = Answer.where("question_id = ?", params[:question_id]).order('question_order asc')
       else
-        @answers = Answer.all
+        @answers = Answer.all.order('question_order asc')
       end
     end
     json_response(@answers)
