@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
 
   # GET /questions
   def index
+    # player_id, answered=no
     if params[:pattern_multi] != nil and params[:age_range] != nil and params[:question_type] != nil and params[:gender] != nil and params[:category] != nil
       @questions = Question.where("pattern_multi = ? AND age_range = ? AND question_type = ? AND gender = ? AND category = ?", params[:pattern_multi], params[:age_range], params[:question_type], params[:gender], params[:category]).order(:question_order)
     elsif params[:pattern_multi] != nil and params[:age_range] != nil and params[:question_type] != nil and params[:gender] != nil
@@ -85,6 +86,10 @@ class QuestionsController < ApplicationController
   # PUT /questions/:id
   def update
     @question.update(question_params)
+    if params[:question_order] != nil
+      answer = Answer.find_by(question_id: @question[:id])
+      answer.update(question_order: params[:question_order])
+    end
     head :no_content
   end
 

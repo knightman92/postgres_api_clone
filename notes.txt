@@ -3,7 +3,7 @@
 
 
 -Todo:
-	1. GET request for answers/2017-11-26
+done1. GET request for answers/2017-11-26
 	2. GET all the answers for a certain day that the player didn't answer
 	3. Order answers in question order
 	4. Only send back questions that haven't been answered for that day

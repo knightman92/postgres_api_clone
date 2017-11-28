@@ -20,6 +20,8 @@ class MultipleAnswersController < ApplicationController
         user_id = answer[:user_id] unless user_id != nil
         puts "The answer was worth this many points below:"
         puts answer[:points]
+        question_order = Question.find(answer[:question_id])[:question_order]
+        answer.update(question_order: question_order)
         total_points += answer[:points].to_i
         question_pattern = Question.find(answer[:question_id])[:pattern_multi]
         if answer[:points] == 1 && question_pattern == 1

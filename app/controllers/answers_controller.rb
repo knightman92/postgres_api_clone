@@ -53,6 +53,8 @@ class AnswersController < ApplicationController
   def create
     puts params 
     @answer = Answer.create!(answer_params)
+    question_order = Question.find(params[:question_id])[:question_order]
+    @answer.update(question_order: question_order)
     addPointsToPlayer(params[:user_id], params[:points]);
     question_pattern = Question.find(params[:question_id])[:pattern_multi]
     if @answer[:points] == 1 && question_pattern == 1
