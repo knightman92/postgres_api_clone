@@ -33,14 +33,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
     fcm_token = params[:fcm_token]
     puts fcm_token
 
-    puts "Before binding" 
-    bind = service.bindings.create(
-      identity: identity,
-      binding_type: 'fcm',
-      address: fcm_token,
-    )
-    puts bind
-    puts "After binding"
+    if fcm_token != nil
+      puts "Before binding" 
+      bind = service.bindings.create(
+        identity: identity,
+        binding_type: 'fcm',
+        address: fcm_token,
+      )
+      puts bind
+      puts "After binding"
+    end
     json_response(@user, :created)
   end
 

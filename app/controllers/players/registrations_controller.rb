@@ -26,14 +26,17 @@ class Players::RegistrationsController < Devise::RegistrationsController
     fcm_token = params[:fcm_token]
     puts fcm_token
 
-    puts "Before binding" 
-    bind = service.bindings.create(
-      identity: identity,
-      binding_type: 'fcm',
-      address: fcm_token,
-    )
-    puts bind
-    puts "After binding"
+    # create binding if fcm_token is present
+    if fcm_token != nil
+      puts "Before binding" 
+      bind = service.bindings.create(
+        identity: identity,
+        binding_type: 'fcm',
+        address: fcm_token,
+      )
+      puts bind
+      puts "After binding"
+    end
 
     json_response(@player, :created)
   end
