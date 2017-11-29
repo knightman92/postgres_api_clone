@@ -10,7 +10,9 @@ class CreateQuestions < ActiveRecord::Migration[5.0]
       t.integer "coach_id"
       t.integer "player_id"
       t.integer "pattern_multi", :null => false, :default => false
-	    t.belongs_to :user
+      t.integer "question_order"
+	    t.integer "points_matter", :null => false
+      t.belongs_to :user
       t.timestamps
     end
   end
